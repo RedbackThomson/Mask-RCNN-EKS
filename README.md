@@ -10,7 +10,7 @@ We use [TensorPack Mask/Faster-RCNN](https://github.com/tensorpack/tensorpack/tr
 1. You need to have AWS account ([reference](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)). It's recommended to create all AWS resource in specific AWS region (e.g. us-west-2 or us-east-2).
 2. You need to have EKS cluster with Sagemaker Operator configured ([setup reference](https://sagemaker.readthedocs.io/en/stable/amazon_sagemaker_operators_for_kubernetes.html#setup-and-operator-deployment))
 3. Ensure your AWS account has appropriate resource limits. You'll need at least 2 `ml.p3.16xlarge` instances for Mask R-CNN training. It's recommended to have 4 instances. 
-4. (recommended) Use Sagemaker managed Jupyter/JupyterLab notebooks. Note, that your Sagemaker notebook needs to have IAM role which is authorized to access EKS cluster, have `eksctl`, and `kubctl` utils configured. See configuration steps on Step #2.
+4. (recommended) Use Sagemaker managed Jupyter/JupyterLab notebooks. Note, that your Sagemaker notebook needs to have IAM role which is authorized to access EKS cluster, have `eksctl`, and `kubectl` utils configured. See configuration steps on Step #2.
 5. Create S3 bucket to store training data and training output ([reference](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)).
 
 ## Prepare environment
@@ -20,13 +20,13 @@ We use [TensorPack Mask/Faster-RCNN](https://github.com/tensorpack/tensorpack/tr
 
 ## Training Mask R-CNN model
 1. Update `train.yaml` as follows:
-- (optionally) update "name" field with unique value. This will be a name of your Sagemaker training job;
+- (optionally) update "name" field with unique value. This will be the prefix for the Sagemaker training job name;
 - update "trainingImage" with URI of your container image (Prepare your envrionment - Step #3);
 - update "roleArn" with your Sagemaker execution role ([reference](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html));
-- update "region" with you AWS region;
-- update your "S3OutputPath" and "inputDataPath" with your S3 bucket.
+- update "region" with your AWS region;
+- update your "s3OutputPath" and "inputDataPath" with your S3 bucket.
 2. Run `kubectl apply -f maskrcnn.yaml` in terminal. This will schedule the Sagemaker job.
-3. Monitor your job in Sagemaker console or by running `kubectl describe trainingjob`.
+3. Monitor your job in Sagemaker console or by running `kubectl describe trainingjob maskrcnn-with-metric`.
 
 ## Credits
 Mask-RCNN training script and docker image are copied from [this AWS repository](https://github.com/awslabs/amazon-sagemaker-examples/tree/master/advanced_functionality/distributed_tensorflow_mask_rcnn)
