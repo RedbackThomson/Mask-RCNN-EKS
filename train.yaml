@@ -57,7 +57,7 @@ spec:
     roleArn: <Sagemaker Role ARN> # add your Sagemaker execution role
     region: <AWS Region> # add your region
     outputDataConfig:
-        s3OutputPath: https://<AWS region>.amazonaws.com/<S3 bucket>/mask-rcnn/sagemaker/output # add your S3 bucket and region
+        s3OutputPath: s3://<S3 bucket>/mask-rcnn/sagemaker/output # add your S3 bucket and region
     resourceConfig:
         instanceCount: 4
         instanceType: ml.p3.16xlarge
@@ -69,7 +69,7 @@ spec:
           dataSource:
             s3DataSource:
                 s3DataType: S3Prefix
-                s3Uri: https://<AWS region>.amazonaws.com/<S3 bucket>/mask-rcnn/sagemaker/input/train/ # add your S3 bucket and region
+                s3Uri: s3://<S3 bucket>/mask-rcnn/sagemaker/input/train/ # add your S3 bucket and region
                 s3DataDistributionType: FullyReplicated
           recordWrapperType: None
           compressionType: None
